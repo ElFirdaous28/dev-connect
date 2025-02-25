@@ -16,6 +16,10 @@ return new class extends Migration
             $table->string('name');
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
+            $table->string('bio')->nullable();
+            $table->string('gtihub_link')->nullable();
+            $table->string('gitlab_link')->nullable();
+            $table->string('profile_link')->nullable();
             $table->string('password');
             $table->rememberToken();
             $table->timestamps();
