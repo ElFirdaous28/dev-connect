@@ -17,13 +17,7 @@
         @csrf
         @method('patch')
         <div class="flex gap-2 justify-evenly">
-            <div class="mt-5 self-center">
-                <x-image-input
-                    name="profile_link"
-                    label="Profile Image"
-                    :value="asset('storage/' . $user->profile_link ?? 'default.png')" />
-            </div>
-            <div class="w-3/5">
+            <div class="w-3/5 space-y-5">
                 <div>
                     <x-input-label for="name" :value="__('Name')" />
                     <x-text-input id="name" name="name" type="text" class="mt-1 block w-full" :value="old('name', $user->name)" required autofocus autocomplete="name" />
@@ -77,6 +71,12 @@
                     <x-text-input id="gitlab_link" name="gitlab_link" type="text" class="mt-1 block w-full" :value="old('gitlab_link', $user->gitlab_link)" autofocus autocomplete="gitlab_link" />
                     <x-input-error class="mt-2" :messages="$errors->get('gitlab_link')" />
                 </div>
+            </div>
+            <div class="mt-5 self-center">
+                <x-image-input
+                    name="profile_link"
+                    label="Profile Image"
+                    :value="asset('storage/' . $user->profile_link ?? 'default.png')" />
             </div>
         </div>
 
