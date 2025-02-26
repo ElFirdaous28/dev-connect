@@ -11,7 +11,6 @@ use Laravel\Sanctum\HasApiTokens;
 class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
-    use Notifiable;
 
 
     /**
@@ -48,4 +47,59 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
+
+    public function certificate()
+    {
+        return $this->hasMany(Certificate::class);
+    }
+
+    public function skills()
+    {
+        return $this->belongsToMany(Skill::class, 'user_skills');
+    }
+
+    public function projects()
+    {
+        return $this->hasMany(Project::class);
+    }
+
+    public function programmingLanguages()
+    {
+        return $this->belongsToMany(ProgrammingLanguage::class, 'user_programming_languages');
+    }
+
+    public function posts()
+    {
+        return $this->hasMany(Post::class);
+    }
+
+    public function comments()
+    {
+        return $this->hasMany(Comment::class);
+    }
+
+    public function connections()
+    {
+        return $this->hasMany(Connection::class);
+    }
+
+    public function connectedUsers()
+    {
+        return $this->belongsToMany(User::class, 'connections', 'user_id', 'connected_user_id');
+    }
+
+    public function messages()
+    {
+        return $this->hasMany(Message::class);
+    }
+
+    public function jobs()
+    {
+        return $this->hasMany(Job::class);
+    }
+
+    public function likedPosts()
+    {
+        return $this->belongsToMany(Post::class, 'post_likes');
+    }
 }
