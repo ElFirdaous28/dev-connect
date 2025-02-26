@@ -23,6 +23,7 @@ class User extends Authenticatable
         'email',
         'password',
         'bio',
+        'headline',
         'gtihub_link',
         'gitlab_link',
         'profile_link',
