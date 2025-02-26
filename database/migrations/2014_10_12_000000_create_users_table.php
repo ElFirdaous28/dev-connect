@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('bio')->nullable();
+            $table->string('headline ')->nullable();
             $table->string('gtihub_link')->nullable();
             $table->string('gitlab_link')->nullable();
             $table->string('profile_link')->nullable();
