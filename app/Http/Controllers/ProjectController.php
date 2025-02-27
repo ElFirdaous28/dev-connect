@@ -68,7 +68,6 @@ class ProjectController extends Controller
             'code_link' => $validated['code_link'],
         ]);
 
-        // Redirect or return response after updating
         return redirect()->route('projects.index')->with('success', 'Project updated successfully.');
     }
 
@@ -77,10 +76,7 @@ class ProjectController extends Controller
      */
     public function destroy(Project $project)
     {
-        // Delete the project
         $project->delete();
-
-        // Redirect or return response after deletion
         return redirect()->route('projects.index')->with('success', 'Project deleted successfully.');
     }
 }

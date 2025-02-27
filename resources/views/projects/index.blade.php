@@ -1,9 +1,3 @@
-<style>
-    [x-cloak] {
-        display: none !important;
-    }
-</style>
-
 <div x-data="{ showModal: false, showDeleteModal: false, editMode: false, formData: {title: '',description: '',link: '',code_link: '' }, 
     openEditModal(project) {this.editMode = true;this.formData = {title: project.title,description: project.description,link: project.link,code_link: project.code_link,currentProjectId:project.id};this.showModal = true;},
     openDeleteModal(project) {this.currentProject = project;this.showDeleteModal = true;}}">
