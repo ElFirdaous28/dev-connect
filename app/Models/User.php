@@ -49,7 +49,7 @@ class User extends Authenticatable
         'password' => 'hashed',
     ];
 
-    public function certificate()
+    public function certificates()
     {
         return $this->hasMany(Certificate::class);
     }
