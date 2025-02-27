@@ -6,7 +6,7 @@ use Closure;
 use Illuminate\Contracts\View\View;
 use Illuminate\View\Component;
 
-class suggested-connections extends Component
+class suggestedconnections extends Component
 {
     /**
      * Create a new component instance.
