@@ -54,8 +54,6 @@ class ProjectController extends Controller
      */
     public function update(Request $request, Project $project)
     {
-        dd($request);
-        // Validate the incoming request data
         $validated = $request->validate([
             'title' => 'required|string|max:255',
             'description' => 'nullable|string',
@@ -63,7 +61,6 @@ class ProjectController extends Controller
             'code_link' => 'nullable|url',
         ]);
 
-        // Update the project with the new data
         $project->update([
             'title' => $validated['title'],
             'description' => $validated['description'],
