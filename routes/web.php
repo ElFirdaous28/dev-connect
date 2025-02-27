@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CertificateController;
 use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
@@ -30,6 +31,6 @@ Route::middleware('auth')->group(function () {
 });
 
 Route::resource('projects', ProjectController::class);
-
+Route::resource('certificates', CertificateController::class);
 
 require __DIR__.'/auth.php';
