@@ -3,7 +3,7 @@
     <div class="space-y-4">
         <div class="flex items-center justify-between">
             <div class="flex items-center space-x-3">
-                <img src="https://avatar.iran.liara.run/public/boy" alt="User"
+                <img src="" alt="User"
                     class="w-10 h-10 rounded-full" />
                 <div>
                     <h4 class="font-medium">Emily Zhang</h4>

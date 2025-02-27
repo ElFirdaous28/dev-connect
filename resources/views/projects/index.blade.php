@@ -5,7 +5,7 @@
 </style>
 
 <div x-data="{ showModal: false, showDeleteModal: false, editMode: false, formData: {title: '',description: '',link: '',code_link: '' }, 
-    openEditModal(project) {this.editMode = true;this.formData = {title: project.title,description: project.description,link: project.link,code_link: project.code_link};this.showModal = true;},
+    openEditModal(project) {this.editMode = true;this.formData = {title: project.title,description: project.description,link: project.link,code_link: project.code_link,currentProjectId:project.id};this.showModal = true;},
     openDeleteModal(project) {this.currentProject = project;this.showDeleteModal = true;}}">
     <x-app-layout>
         <div class="lg:col-span-3 space-y-6">
@@ -28,7 +28,7 @@
                             <div class="bg-gray-50 dark:bg-gray-700 rounded-lg p-6 shadow-sm">
                                 <div class="flex flex-col md:flex-row gap-6">
                                     <!-- Project Details -->
-                                    <div class="w-full">
+                                    <div class="w-full flex flex-col h-full">
                                         <div class="flex justify-between items-start">
                                             <h3 class="text-xl font-bold text-gray-900 dark:text-gray-100">{{ $project->title}}</h3>
                                             <div class="flex space-x-2">
@@ -50,12 +50,12 @@
                                         <div class="mt-4 flex flex-wrap gap-2">
                                         </div>
 
-                                        <div class="mt-6 flex justify-between items-center">
+                                        <div class="flex justify-between items-center mt-0">
                                             <div class="text-sm text-gray-500 dark:text-gray-400">
                                                 <span>{{ $project->created_at->diffForHumans()}}</span>
                                             </div>
 
-                                            <div class="flex space-x-3">
+                                            <div class="flex space-x-3 mt-auto">
                                                 <a href="{{ $project->demo_link }}" target="_blank" class="inline-flex items-center px-3 py-1.5 border border-gray-300 dark:border-gray-600 rounded-md text-sm font-medium text-gray-700 dark:text-gray-200 bg-white dark:bg-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
                                                     <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
@@ -93,7 +93,7 @@
                     </svg>
                 </button>
             </div>
-            <form :action="editMode ? '{{ route('projects.destroy', $project->id) }} : '{{ route('projects.store') }}'" method="POST">
+            <form x-bind:action="editMode ? '{{ route('projects.update', ':id') }}'.replace(':id', formData.currentProjectId) : '{{ route('projects.store') }}'" method="POST">
                 @csrf
                 <!-- Method Override if in edit mode -->
                 <template x-if="editMode">
