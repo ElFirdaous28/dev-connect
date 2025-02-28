@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Skill;
 use App\Models\UserSkill;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class UserSkillController extends Controller
 {
@@ -12,15 +14,9 @@ class UserSkillController extends Controller
      */
     public function index()
     {
-        //
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
+        $skills = Auth::user()->skills ?? [];
+        $availableSkills = Skill::all() ?? [];
+        return view('skills.index', compact('skills', 'availableSkills'));
     }
 
     /**
@@ -28,38 +24,35 @@ class UserSkillController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $exists = UserSkill::where('user_id', auth()->user()->id)
+                           ->where('skill_id', $request->skill_id)
+                           ->exists();
+    
+        if ($exists) {
+            return redirect()->back()->with('success', 'This skill is already added!');
+        }
+    
+        UserSkill::create([
+            'user_id' => auth()->user()->id,
+            'skill_id' => $request->skill_id,
+        ]);
+    
+        return redirect()->back()->with('success', 'Skill added successfully!');
     }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(UserSkill $userSkill)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(UserSkill $userSkill)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, UserSkill $userSkill)
-    {
-        //
-    }
+    
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(UserSkill $userSkill)
+
+    public function destroy($id)
     {
-        //
+        $userProgrammingLanguage = UserSkill::where('skill_id', $id)
+                                                            ->where('user_id', auth()->user()->id)
+                                                            ->first();
+        if ($userProgrammingLanguage) {
+            $userProgrammingLanguage->delete();
+        }
+        return redirect()->route('skills.index')->with('success', 'Skill  deleted successfully.');
     }
 }
