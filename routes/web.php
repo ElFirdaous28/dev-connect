@@ -4,6 +4,7 @@ use App\Http\Controllers\CertificateController;
 use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\UserProgrammingLanguageController;
+use App\Http\Controllers\UserSkillController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -33,6 +34,7 @@ Route::middleware('auth')->group(function () {
 
 Route::resource('projects', ProjectController::class);
 Route::resource('certificates', CertificateController::class);
-Route::resource('programming-languages', \App\Http\Controllers\UserProgrammingLanguageController::class);
+Route::resource('programming-languages',UserProgrammingLanguageController::class);
+Route::resource('skills',UserSkillController::class);
 
 require __DIR__.'/auth.php';

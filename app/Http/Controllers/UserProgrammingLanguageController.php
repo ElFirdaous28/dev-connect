@@ -32,7 +32,15 @@ class UserProgrammingLanguageController extends Controller
             'language_id' => 'required|exists:programming_languages,id',
         ]);
 
-        $userProgrammingLanguage = UserProgrammingLanguage::create([
+        $exists = UserProgrammingLanguage::where('user_id', auth()->id())
+                                            ->where('programming_language_id', $request->input('language_id'))
+                                            ->exists();
+
+        if ($exists) {
+            return redirect()->back()->with('success', 'This programming language is already added!');
+        }
+
+        UserProgrammingLanguage::create([
             'user_id' => auth()->id(),
             'programming_language_id' => $request->input('language_id'),
         ]);
@@ -40,14 +48,15 @@ class UserProgrammingLanguageController extends Controller
         return redirect()->back()->with('success', 'Programming language added successfully!');
     }
 
+
     /**
      * Remove the specified resource from storage.
      */
     public function destroy($id)
     {
         $userProgrammingLanguage = UserProgrammingLanguage::where('programming_language_id', $id)
-                                                            ->where('user_id', auth()->user()->id)
-                                                            ->first();
+            ->where('user_id', auth()->user()->id)
+            ->first();
         if ($userProgrammingLanguage) {
             $userProgrammingLanguage->delete();
         }
