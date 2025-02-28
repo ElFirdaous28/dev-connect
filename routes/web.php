@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\CertificateController;
+use App\Http\Controllers\ConnectionController;
 use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\UserProgrammingLanguageController;
@@ -37,4 +38,7 @@ Route::resource('certificates', CertificateController::class);
 Route::resource('programming-languages',UserProgrammingLanguageController::class);
 Route::resource('skills',UserSkillController::class);
 
+
+// connection toutes
+Route::post('/connect/{user}', [ConnectionController::class, 'connect'])->name('connect');
 require __DIR__.'/auth.php';

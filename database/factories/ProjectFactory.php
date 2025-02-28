@@ -20,7 +20,8 @@ class ProjectFactory extends Factory
         return [
             'title' => $this->faker->sentence,
             'description' => $this->faker->paragraph,
-            'link' => $this->faker->url,
+            'code_link' => $this->faker->url,
+            'demo_link' => $this->faker->url,
             'user_id' => User::factory(),
         ];
     }
