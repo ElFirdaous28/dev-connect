@@ -35,9 +35,9 @@
                 <!-- Right Sidebar -->
                 <div class="space-y-6">
                     <!-- Job Recommendations -->
-                    <x-job-recommendations/>
+                    <x-job-recommendations />
                     <!-- Suggested Connections -->
-                    <x-suggested-connections/>
+                    <x-suggested-connections />
                 </div>
             </div>
         </main>

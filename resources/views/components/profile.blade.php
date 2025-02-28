@@ -1,8 +1,8 @@
 <div class="bg-white rounded-xl shadow-sm overflow-hidden">
     <div class="relative">
         <div class="h-24 bg-gradient-to-r from-blue-600 to-blue-400"></div>
-        <img src="{{ Auth::user()->profile_link}}" alt="Profile"
-            class="absolute -bottom-6 left-4 w-20 h-20 rounded-full border-4 border-white shadow-md" />
+        <img src="{{ asset('storage/' . Auth::user()->profile_link) }}" alt="Profile"
+        class="absolute -bottom-6 left-4 w-20 h-20 rounded-full border-4 border-white shadow-md" />
     </div>
     <div class="pt-14 p-4">
         <div class="flex items-center justify-between">
@@ -15,17 +15,10 @@
             </a>
             @endif
         </div>
-        <p class="text-gray-600 text-sm mt-1">{{ Auth::user()->headline }}</p>
+        <p class="text-gray-900 text-sm mt-1">{{ Auth::user()->headline }}</p>
         <p class="text-gray-500 text-sm mt-2">{{ Auth::user()->bio}}
 
-        <div class="mt-4 flex flex-wrap gap-2">
-            <span class="px-2 py-1 bg-blue-100 text-blue-800 rounded-full text-xs">JavaScript</span>
-            <span class="px-2 py-1 bg-green-100 text-green-800 rounded-full text-xs">Node.js</span>
-            <span class="px-2 py-1 bg-purple-100 text-purple-800 rounded-full text-xs">React</span>
-            <span class="px-2 py-1 bg-yellow-100 text-yellow-800 rounded-full text-xs">Python</span>
-            <span class="px-2 py-1 bg-red-100 text-red-800 rounded-full text-xs">Docker</span>
-        </div>
-
+       
         <div class="mt-4 pt-4 border-t">
             <div class="flex justify-between text-sm">
                 <span class="text-gray-500">Connections</span>

@@ -3,7 +3,7 @@
     <div class="space-y-4">
         <div class="p-3 hover:bg-gray-50 rounded-lg transition-colors duration-200">
             <div class="flex items-start space-x-3">
-                <img src="/api/placeholder/40/40" alt="Company" class="w-10 h-10 rounded" />
+                <img src="" alt="Company" class="w-10 h-10 rounded" />
                 <div>
                     <h4 class="font-medium">Senior Full Stack Developer</h4>
                     <p class="text-gray-500 text-sm">TechStart Inc.</p>
@@ -20,7 +20,7 @@
 
         <div class="p-3 hover:bg-gray-50 rounded-lg transition-colors duration-200">
             <div class="flex items-start space-x-3">
-                <img src="/api/placeholder/40/40" alt="Company" class="w-10 h-10 rounded" />
+                <img src="" alt="Company" class="w-10 h-10 rounded" />
                 <div>
                     <h4 class="font-medium">DevOps Engineer</h4>
                     <p class="text-gray-500 text-sm">CloudScale Solutions</p>

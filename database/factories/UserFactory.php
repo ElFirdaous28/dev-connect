@@ -27,11 +27,11 @@ class UserFactory extends Factory
             'name' => $this->faker->name,
             'email' => $this->faker->unique()->safeEmail,
             'email_verified_at' => now(),
-            'bio' => $this->faker->optional()->text,
-            'github_link' => $this->faker->optional()->url,
-            'gitlab_link' => $this->faker->optional()->url,
-            'profile_link' => $this->faker->optional()->url,
-            'password' => bcrypt('password'), // or Hash::make('password') for hashed passwords
+            'bio' => $this->faker->text,
+            'github_link' => $this->faker->url,
+            'gitlab_link' => $this->faker->url,
+            'profile_link' => $this->faker->url,
+            'password' => bcrypt('password'),
             'remember_token' => Str::random(10),
         ];
     }

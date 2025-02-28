@@ -12,7 +12,6 @@ class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
 
-
     /**
      * The attributes that are mass assignable.
      *
@@ -81,12 +80,7 @@ class User extends Authenticatable
 
     public function connections()
     {
-        return $this->hasMany(Connection::class);
-    }
-
-    public function connectedUsers()
-    {
-        return $this->belongsToMany(User::class, 'connections', 'user_id', 'connected_user_id');
+        return $this->belongsToMany(User::class, 'connections', 'requester_id', 'addressee_id');
     }
 
     public function messages()

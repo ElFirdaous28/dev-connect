@@ -15,7 +15,7 @@
                     <div class="p-4">
                         <div class="flex items-center justify-between">
                             <div class="flex items-center space-x-3">
-                                <img src="https://avatar.iran.liara.run/public/boy" alt="User"
+                                <img src="" alt="User"
                                     class="w-12 h-12 rounded-full" />
                                 <div>
                                     <h3 class="font-semibold">Alex Chen</h3>
