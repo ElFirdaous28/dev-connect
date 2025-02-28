@@ -4,13 +4,24 @@
         @forelse($users as $user)
         <div class="flex items-start justify-between" id="user-{{ $user->id }}">
             <div class="flex items-center space-x-3">
+                @if($user->profile_link)
                 <img src="{{ asset('storage/' . $user->profile_link) }}" alt="User"
                     class="w-10 h-10 rounded-full" />
+                @else
+                <!-- Default SVG Avatar -->
+                <div class="w-10 h-10 rounded-full bg-gray-200 flex items-center justify-center">
+                    <svg class="w-6 h-6 text-gray-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M5.121 17.804A11.954 11.954 0 0112 15c2.5 0 4.847.776 6.879 2.096M15 10a3 3 0 11-6 0 3 3 0 016 0z" />
+                    </svg>
+                </div>
+                @endif
                 <div>
                     <h4 class="font-medium">{{ $user->name }}</h4>
                     <p class="text-gray-500 text-sm">{{ $user->position ?? 'User' }}</p>
                 </div>
             </div>
+
 
             @if ($user->connectionStatus)
             @if ($user->connectionStatus == 'accepted')

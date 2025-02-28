@@ -1,6 +1,16 @@
 <div class="bg-white rounded-xl shadow-sm p-4">
     <div class="flex items-center space-x-4">
-        <img src="https://avatar.iran.liara.run/public/boy" alt="User" class="w-12 h-12 rounded-full" />
+        @if(auth()->user()->profile_link)
+        <img src="{{ asset('storage/' . auth()->user()->profile_link) }}" alt="User" class="w-12 h-12 rounded-full" />
+        @else
+        <div class="w-12 h-12 rounded-full bg-gray-200 flex items-center justify-center">
+            <svg class="w-6 h-6 text-gray-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M5.121 17.804A11.954 11.954 0 0112 15c2.5 0 4.847.776 6.879 2.096M15 10a3 3 0 11-6 0 3 3 0 016 0z" />
+            </svg>
+        </div>
+        @endif
+
         <button
             class="bg-gray-100 hover:bg-gray-200 text-gray-500 text-left rounded-lg px-4 py-3 flex-grow transition-colors duration-200">
             Share your knowledge or ask a question...

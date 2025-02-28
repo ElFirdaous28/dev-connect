@@ -1,8 +1,18 @@
 <div class="bg-white rounded-xl shadow-sm overflow-hidden">
     <div class="relative">
         <div class="h-24 bg-gradient-to-r from-blue-600 to-blue-400"></div>
-        <img src="{{ asset('storage/' . Auth::user()->profile_link) }}" alt="Profile"
-        class="absolute -bottom-6 left-4 w-20 h-20 rounded-full border-4 border-white shadow-md" />
+        @if(auth()->user()->profile_link)
+        <img src="{{ asset('storage/' . auth()->user()->profile_link) }}" alt="Profile"
+            class="absolute -bottom-6 left-4 w-20 h-20 rounded-full border-4 border-white shadow-md" />
+        @else
+        <div class="absolute -bottom-6 left-4 w-20 h-20 rounded-full bg-gray-200 flex items-center justify-center border-4 border-white shadow-md">
+            <svg class="w-10 h-10 text-gray-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M5.121 17.804A11.954 11.954 0 0112 15c2.5 0 4.847.776 6.879 2.096M15 10a3 3 0 11-6 0 3 3 0 016 0z" />
+            </svg>
+        </div>
+        @endif
+
     </div>
     <div class="pt-14 p-4">
         <div class="flex items-center justify-between">
@@ -18,7 +28,7 @@
         <p class="text-gray-900 text-sm mt-1">{{ Auth::user()->headline }}</p>
         <p class="text-gray-500 text-sm mt-2">{{ Auth::user()->bio}}
 
-       
+
         <div class="mt-4 pt-4 border-t">
             <div class="flex justify-between text-sm">
                 <span class="text-gray-500">Connections</span>
