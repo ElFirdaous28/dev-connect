@@ -16,7 +16,7 @@
         Skills
     </a>
     <a href="{{route ('programming-languages.index') }}"
-        class="px-4 py-2 text-sm font-medium text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white rounded-t-lg {{ request()->is('languages') ? 'bg-white dark:bg-gray-800 border-b-4 border-indigo-500' : '' }}">
+        class="px-4 py-2 text-sm font-medium text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white rounded-t-lg {{ request()->is('programming-languages') ? 'bg-white dark:bg-gray-800 border-b-4 border-indigo-500' : '' }}">
         Programming Languages
     </a>
     <a href="{{ route('certificates.index') }}"
