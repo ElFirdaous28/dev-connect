@@ -34,7 +34,7 @@
             @endif
             @else
             <button
-                onclick="connect({{ $user->id }})"
+                onclick="connect('{{$user->id}}')"
                 class="text-blue-500 hover:text-blue-600 connect-btn">
                 Connect
             </button>

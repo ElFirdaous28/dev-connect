@@ -12,7 +12,7 @@ class PostController extends Controller
      */
     public function index()
     {
-        //
+        return view('posts.index');
     }
 
     /**
@@ -20,7 +20,7 @@ class PostController extends Controller
      */
     public function create()
     {
-        //
+        return view('posts.create');
     }
 
     /**
@@ -28,8 +28,28 @@ class PostController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validated = $request->validate([
+            'title' => 'required|string|max:255',
+            'content' => 'required|string',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+        ]);
+
+        // Store the post
+        $post = new Post();
+        $post->title = $validated['title'];
+        $post->content = $validated['content']; // HTML content
+        $post->user_id = auth()->id(); // Assuming you have user authentication
+        $post->save();
+
+        // Handle the image if uploaded
+        if ($request->hasFile('image')) {
+            $post->image = $request->file('image')->store('posts_images', 'public');
+            $post->save();
+        }
+
+        return redirect()->route('posts.index');
     }
+
 
     /**
      * Display the specified resource.
