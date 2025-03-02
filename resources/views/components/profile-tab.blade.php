@@ -1,6 +1,6 @@
 <div class="flex items-center space-x-2 border-b border-gray-300 mb-10">
-    <a href="/posts"
-        class="px-4 py-2 text-sm font-medium text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white rounded-t-lg {{ request()->is('posts') ? 'bg-white dark:bg-gray-800 border-b-4 border-indigo-500' : '' }}">
+    <a href="{{ route('posts.index') }}"
+        class="px-4 py-2 text-sm font-medium text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white rounded-t-lg {{ request()->routeIs('posts.index') ? 'bg-white dark:bg-gray-800 border-b-4 border-indigo-500' : '' }}">
         Posts
     </a>
     <a href="{{ route('profile.edit') }}"

@@ -1,7 +1,7 @@
 <x-app-layout>
     <div class="lg:col-span-3 space-y-6">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-6">
-            <x-profile-tab :activeTab="'profile'" />
+            <x-profile-tab />
             <section>
                 <header>
                     <h2 class="text-lg font-medium text-gray-900 dark:text-gray-100">
@@ -35,6 +35,13 @@
                                 <!-- Replace the hidden input with a textarea -->
                                 <textarea name="content" id="content-input" class="hidden">{{ old('content') }}</textarea>
                                 <x-input-error class="mt-2" :messages="$errors->get('content')" />
+                            </div>
+
+                            <div>
+                                <x-input-label for="hashtags" :value="__('Hashtags')" />
+                                <x-text-input id="hashtags" name="hashtags" type="text" class="mt-1 block w-full" 
+                                    value="{{ old('hashtags') }}" required autofocus />
+                                <x-input-error class="mt-2" :messages="$errors->get('hashtags')" />
                             </div>
 
                             <!-- Image Upload -->
