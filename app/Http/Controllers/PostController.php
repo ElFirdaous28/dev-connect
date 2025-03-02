@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Hashtag;
 use App\Models\Post;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class PostController extends Controller
 {
@@ -12,7 +14,16 @@ class PostController extends Controller
      */
     public function index()
     {
-        return view('posts.index');
+
+        // Create a collection of objects (simulating your hashtags data)
+        $hashtagsCollection = collect([
+            (object) ['id' => 14, 'name' => 'hello'],
+            (object) ['id' => 15, 'name' => 'world'],
+            (object) ['id' => 16, 'name' => 'mytag']
+        ]);       
+        
+        $posts = Post::where('user_id', auth()->id())->get();
+        return view('posts.index', compact('posts'));
     }
 
     /**
@@ -32,14 +43,25 @@ class PostController extends Controller
             'title' => 'required|string|max:255',
             'content' => 'required|string',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'hashtags' => 'required',
         ]);
 
-        // Store the post
-        $post = new Post();
-        $post->title = $validated['title'];
-        $post->content = $validated['content']; // HTML content
-        $post->user_id = auth()->id(); // Assuming you have user authentication
-        $post->save();
+        $post = Post::create([
+            'title' => $validated['title'],
+            'content' => $validated['content'],
+            'uesr_id' => auth()->id(),
+        ]);
+
+
+        $tagsArray = array_filter(preg_split('/[\s#]+/', $request->hashtags));
+
+        $hashtagsIds = [];
+        foreach ($tagsArray as $tagName) {
+            $tag = Hashtag::firstOrCreate(['name' => $tagName]);
+            $hashtagsIds[] = $tag->id;
+        }
+
+        $post->hashtags()->sync($hashtagsIds);
 
         // Handle the image if uploaded
         if ($request->hasFile('image')) {
@@ -56,7 +78,7 @@ class PostController extends Controller
      */
     public function show(Post $post)
     {
-        //
+        return view('posts.show', compact('post'));
     }
 
     /**
@@ -64,7 +86,8 @@ class PostController extends Controller
      */
     public function edit(Post $post)
     {
-        //
+
+        return view('posts.edit', compact('post'));
     }
 
     /**
@@ -72,7 +95,48 @@ class PostController extends Controller
      */
     public function update(Request $request, Post $post)
     {
-        //
+        // Ensure only the owner can update the post
+        if ($post->user_id !== auth()->id()) {
+            abort(403, 'Unauthorized action.');
+        }
+
+        // Validate input
+        $validated = $request->validate([
+            'title' => 'required|string|max:255',
+            'content' => 'required|string',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'hashtags' => 'required',
+        ]);
+
+        // Update post fields
+        $post->title = $validated['title'];
+        $post->content = $validated['content'];
+        $post->save();
+
+        // hashtags
+        $tagsArray = array_filter(preg_split('/[\s#]+/', $request->hashtags));
+
+        $hashtagsIds = [];
+        foreach ($tagsArray as $tagName) {
+            $tag = Hashtag::firstOrCreate(['name' => $tagName]);
+            $hashtagsIds[] = $tag->id;
+        }
+
+        $post->hashtags()->sync($hashtagsIds);
+
+        // Handle new image upload
+        if ($request->hasFile('image')) {
+            // Delete old image if exists
+            if ($post->image) {
+                Storage::disk('public')->delete($post->image);
+            }
+
+            // Store new image
+            $post->image = $request->file('image')->store('posts_images', 'public');
+            $post->save();
+        }
+
+        return redirect()->route('posts.index')->with('success', 'Post updated successfully.');
     }
 
     /**
@@ -80,6 +144,38 @@ class PostController extends Controller
      */
     public function destroy(Post $post)
     {
-        //
+        $post->delete();
+        return redirect()->back();
     }
 }
+
+
+//  function store(Request $request)
+//     {
+//         // dd($request->all());
+//         $request->validate([
+//             'titre' => 'required|string|max:255',
+//             'description' => 'required|string|max:255',
+//             'image' => ['required'],
+//             'tags' => 'required|string',
+//         ]);
+        
+//         $tagsArray = array_filter(explode('#', ltrim($request->tags, '#')));
+//         $imagepath = $request->file('image') ? $request->file('image')->store('posts', 'public') : null;
+//         $post = Post::create([
+//             'titre' => $request->titre,
+//             'description' => $request->description,
+//             'image' => $imagepath,
+//             'user_id' => auth()->user()->id,
+//         ]);
+
+//         $tagIds = [];
+//         foreach ($tagsArray as $tagName) {
+//             $tag = Tag::firstOrCreate(['name' => $tagName]);
+//             $tagIds[] = $tag->id;
+//         }
+
+//         $post->tags()->sync($tagIds);
+
+//         return redirect()->back();
+//     }

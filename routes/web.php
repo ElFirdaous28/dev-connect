@@ -32,16 +32,18 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+
+    Route::resource('projects', ProjectController::class);
+    Route::resource('certificates', CertificateController::class);
+    Route::resource('programming-languages', UserProgrammingLanguageController::class);
+    Route::resource('skills', UserSkillController::class);
+    
+    
+    // connection toutes
+    Route::post('/connect/{user}', [ConnectionController::class, 'connect'])->name('connect');
+
+    
+    Route::resource('posts', PostController::class);
 });
 
-Route::resource('projects', ProjectController::class);
-Route::resource('certificates', CertificateController::class);
-Route::resource('programming-languages',UserProgrammingLanguageController::class);
-Route::resource('skills',UserSkillController::class);
-
-
-// connection toutes
-Route::post('/connect/{user}', [ConnectionController::class, 'connect'])->name('connect');
-
-Route::resource('posts',PostController::class);
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';
