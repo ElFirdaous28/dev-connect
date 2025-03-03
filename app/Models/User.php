@@ -93,8 +93,8 @@ class User extends Authenticatable
         return $this->hasMany(Job::class);
     }
 
-    public function likedPosts()
+    public function likes()
     {
-        return $this->belongsToMany(Post::class, 'post_likes');
+        return $this->hasMany(Like::class);
     }
 }

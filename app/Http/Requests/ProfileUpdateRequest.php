@@ -18,7 +18,7 @@ class ProfileUpdateRequest extends FormRequest
         return [
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'lowercase', 'email', 'max:255', Rule::unique(User::class)->ignore($this->user()->id)],
-            'headline' => ['string', 'max:255'],
+            'headline' => ['nullable','string', 'max:255'],
             'bio' => ['nullable','string'],
             'gtihub_link' => ['nullable','string', 'max:255'],
             'gitlab_link' => ['nullable','string', 'max:255'],

@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\CertificateController;
 use App\Http\Controllers\ConnectionController;
+use App\Http\Controllers\LikeController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\ProfileController;
@@ -24,11 +25,13 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+// Route::get('/dashboard', function () {
+//     return view('dashboard');
+// })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
+    Route::get('/dashboard', [PostController::class, 'dashboard'])->name('dashboard');
+
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
@@ -37,13 +40,17 @@ Route::middleware('auth')->group(function () {
     Route::resource('certificates', CertificateController::class);
     Route::resource('programming-languages', UserProgrammingLanguageController::class);
     Route::resource('skills', UserSkillController::class);
-    
-    
+
+
     // connection toutes
     Route::post('/connect/{user}', [ConnectionController::class, 'connect'])->name('connect');
 
-    
+
     Route::resource('posts', PostController::class);
+
+    // likes
+    Route::post('/posts/{post}/like', [LikeController::class, 'toggleLike'])->name('posts.like');
+    Route::get('/posts/{post}/check-like', [LikeController::class, 'checkLike'])->name('posts.checkLike');
 });
 
 require __DIR__ . '/auth.php';

@@ -2,7 +2,7 @@
     <div class="max-w-7xl mx-auto px-4">
         <div class="flex justify-between items-center h-16">
             <div class="flex items-center space-x-4">
-                <div class="text-2xl font-bold text-blue-400">&lt;DevConnect/&gt;</div>
+                <a href="{{ route('dashboard') }}" class="text-2xl font-bold text-blue-400">&lt;DevConnect/&gt;</a>
                 <div class="relative">
                     <input type="text" placeholder="Search developers, posts, or #tags"
                         class="bg-gray-800 pl-10 pr-4 py-2 rounded-lg w-96 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:bg-gray-700 transition-all duration-200">
