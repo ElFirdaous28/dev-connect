@@ -75,11 +75,11 @@
                     <div x-show="showComments" x-transition.duration.300ms class="bg-white rounded-xl shadow-sm mt-2">
                         <div class="bg-white text-gray-800 rounded-xl shadow-sm p-4">
                             <!-- Add Comment Form -->
-                            <form action="{{ route('posts.store', $post->id) }}" class="mb-4" method="POST">
+                            <form action="{{ route('comments.store', $post->id) }}" class="mb-4" method="POST">
                                 @csrf
                                 <div class="flex items-start space-x-3">
                                     <!-- Default Avatar -->
-                                    <div class="w-8 h-8 rounded-full bg-gray-200 flex items-center justify-center  mt-4">
+                                    <div class="w-8 h-8 rounded-full bg-gray-200 flex items-center justify-center mt-4">
                                         <img src="{{ asset('storage/' . (auth()->user()->profile_link ??  'default/user.png')) }}"
                                             alt="User Avatar" class="w-8 h-8 rounded-full object-cover">
                                     </div>
@@ -101,23 +101,65 @@
                             <!-- Comments List -->
                             <div class="space-y-4">
                                 @forelse($post->comments as $comment)
-                                <div class="comment-item flex space-x-3">
+                                <div x-data="{ isEditing: false, commentText: '{{ addslashes($comment->content) }}' }" class="comment-item flex space-x-3 items-center">
                                     <!-- User Avatar -->
                                     <div class="w-8 h-8 rounded-full bg-gray-200 flex items-center justify-center">
                                         <img src="{{ asset('storage/' . ($comment->user->profile_link ??  'default/user.png')) }}"
                                             alt="User Avatar" class="w-8 h-8 rounded-full object-cover">
                                     </div>
                                     <div class="flex-1">
-                                        <div class="bg-gray-50 pl-3 rounded-lg">
+                                        <!-- Normal comment view -->
+                                        <div x-show="!isEditing" class="bg-gray-50 p-3 rounded-lg">
                                             <div class="flex justify-between items-start">
-                                                <h4 class="font-medium text-sm text-gray-800">Alex Johnson</h4>
-                                                <div class="text-xs text-gray-400">3 days ago</div>
+                                                <h4 class="font-medium text-sm text-gray-800">{{ $comment->user->name }}</h4>
+                                                <div class="text-xs text-gray-400">{{ $comment->created_at->diffForHumans() }}</div>
                                             </div>
-                                            <p class="mt-1 text-sm text-gray-600">Have you considered adding more examples? That would make this even better!</p>
+                                            <p class="mt-1 text-sm text-gray-600" x-text="commentText"></p>
                                         </div>
+
+                                        <!-- Edit form -->
+                                        <div x-show="isEditing" class="bg-gray-50 p-3 rounded-lg">
+                                            <form @submit.prevent="fetch('{{ route('comments.update', $comment->id) }}', {
+                                                                            method: 'PATCH',
+                                                                            headers: {
+                                                                                'Content-Type': 'application/json',
+                                                                                'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                                                                            },
+                                                                            body: JSON.stringify({ content: commentText })
+                                                                        })
+                                                                        .then(response => response.json())
+                                                                        .then(data => {
+                                                                            if (data.success) {
+                                                                                isEditing = false;
+                                                                            }
+                                                                        })
+                                                                        .catch(error => console.error('Error:', error))">
+                                                <textarea
+                                                    x-model="commentText"
+                                                    class="w-full px-3 py-2 text-sm border border-gray-300 bg-white text-gray-800 rounded-lg focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500"
+                                                    rows="2"></textarea>
+                                                <div class="flex justify-end mt-2 space-x-2">
+                                                    <button type="button" @click="isEditing = false"
+                                                        class="px-3 py-1 text-xs font-medium text-gray-600 bg-gray-200 rounded-md hover:bg-gray-300 focus:outline-none">
+                                                        Cancel
+                                                    </button>
+                                                    <button type="submit"
+                                                        class="px-3 py-1 text-xs font-medium text-white bg-blue-500 rounded-md hover:bg-blue-600 focus:outline-none">
+                                                        Save
+                                                    </button>
+                                                </div>
+                                            </form>
+                                        </div>
+
                                         <div class="mt-1 flex ml-3 space-x-4 text-xs">
-                                            <button type="button" class="text-gray-400 hover:text-red-500">Delete</button>
-                                            <button type="button" class="text-gray-400 hover:text-red-500">Edite</button>
+                                            @if(auth()->id() == $comment->user_id)
+                                            <form action="{{ route('comments.destroy', $comment->id) }}" method="POST" class="inline">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button type="submit" class="text-gray-400 hover:text-red-500">Delete</button>
+                                            </form>
+                                            <button @click="isEditing = true" type="button" class="text-gray-400 hover:text-blue-500">Edit</button>
+                                            @endif
                                         </div>
                                     </div>
                                 </div>
