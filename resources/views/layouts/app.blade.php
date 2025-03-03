@@ -30,8 +30,8 @@
 
         <!-- Page Content -->
         <main class="py-10">
-            <div class="max-w-7xl mx-auto pt-20 px-4">
-                <div class="grid grid-cols-1 lg:grid-cols-4 gap-6">
+            <div class="max-w-[90rem] mx-auto pt-20 px-4">
+                <div class="grid grid-cols-1 lg:grid-cols-4 gap-16">
                     {{ $slot }}
                 </div>
                 <!-- Right Sidebar -->

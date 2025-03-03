@@ -18,7 +18,7 @@
                 @endif
                 <div>
                     <h4 class="font-medium">{{ $user->name }}</h4>
-                    <p class="text-gray-500 text-sm">{{ $user->position ?? 'User' }}</p>
+                    <p class="text-gray-500 text-sm">{{ Str::limit($user->headline ?? 'User', 20) }}</p>
                 </div>
             </div>
 
@@ -40,6 +40,7 @@
             </button>
             @endif
         </div>
+        
         @empty
         <p class="dark:text-white">No suggestions yet!</p>
         @endforelse
