@@ -12,10 +12,10 @@ class CommentController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request,Post $post)
+    public function store(Request $request, Post $post)
     {
         $validated = $request->validate([
-            'content' => 'required|string|max:255',
+            'content' => 'required',
         ]);
 
         $post->comments()->create([
@@ -35,7 +35,17 @@ class CommentController extends Controller
      */
     public function update(Request $request, Comment $comment)
     {
-        dd($request,$comment);
+        $validated = $request->validate([
+            'content' => 'required|string',
+        ]);
+
+        $comment->update([
+            'content' => $validated['content'],
+        ]);
+        return response()->json([
+            'success'=>true,
+            'message' => "comment edited succisfully"
+        ]);
     }
 
     /**
@@ -43,6 +53,10 @@ class CommentController extends Controller
      */
     public function destroy(Comment $comment)
     {
-        //
-    }
+        $comment->delete();
+        return response()->json([
+            'success' => true,
+            'message' => "Comment deleted successfully"
+        ]);
+    }    
 }
