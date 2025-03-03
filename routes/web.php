@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\CertificateController;
+use App\Http\Controllers\CommentController;
 use App\Http\Controllers\ConnectionController;
 use App\Http\Controllers\LikeController;
 use App\Http\Controllers\PostController;
@@ -51,6 +52,10 @@ Route::middleware('auth')->group(function () {
     // likes
     Route::post('/posts/{post}/like', [LikeController::class, 'toggleLike'])->name('posts.like');
     Route::get('/posts/{post}/check-like', [LikeController::class, 'checkLike'])->name('posts.checkLike');
+
+
+    // comments
+    Route::post('/posts/{post}/comment', [CommentController::class, 'store'])->name('posts.store');
 });
 
 require __DIR__ . '/auth.php';
