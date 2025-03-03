@@ -9,6 +9,8 @@ class Post extends Model
 {
     use HasFactory;
 
+    protected $fillable = ['title','content','user_id'];
+
     public function user()
     {
         return $this->belongsTo(User::class);
@@ -24,8 +26,8 @@ class Post extends Model
         return $this->belongsToMany(Hashtag::class, 'post_hashtags');
     }
 
-    public function likedBy()
+    public function likes()
     {
-        return $this->belongsToMany(User::class, 'post_likes');
+        return $this->hasMany(Like::class);
     }
 }

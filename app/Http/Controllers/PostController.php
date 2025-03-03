@@ -9,6 +9,11 @@ use Illuminate\Support\Facades\Storage;
 
 class PostController extends Controller
 {
+
+    public function dashboard(){
+        $posts = Post::all();
+        return view('dashboard', compact('posts'));
+    }
     /**
      * Display a listing of the resource.
      */
@@ -20,8 +25,8 @@ class PostController extends Controller
             (object) ['id' => 14, 'name' => 'hello'],
             (object) ['id' => 15, 'name' => 'world'],
             (object) ['id' => 16, 'name' => 'mytag']
-        ]);       
-        
+        ]);
+
         $posts = Post::where('user_id', auth()->id())->get();
         return view('posts.index', compact('posts'));
     }
@@ -49,7 +54,7 @@ class PostController extends Controller
         $post = Post::create([
             'title' => $validated['title'],
             'content' => $validated['content'],
-            'uesr_id' => auth()->id(),
+            'user_id' => auth()->id(),
         ]);
 
 
@@ -148,34 +153,3 @@ class PostController extends Controller
         return redirect()->back();
     }
 }
-
-
-//  function store(Request $request)
-//     {
-//         // dd($request->all());
-//         $request->validate([
-//             'titre' => 'required|string|max:255',
-//             'description' => 'required|string|max:255',
-//             'image' => ['required'],
-//             'tags' => 'required|string',
-//         ]);
-        
-//         $tagsArray = array_filter(explode('#', ltrim($request->tags, '#')));
-//         $imagepath = $request->file('image') ? $request->file('image')->store('posts', 'public') : null;
-//         $post = Post::create([
-//             'titre' => $request->titre,
-//             'description' => $request->description,
-//             'image' => $imagepath,
-//             'user_id' => auth()->user()->id,
-//         ]);
-
-//         $tagIds = [];
-//         foreach ($tagsArray as $tagName) {
-//             $tag = Tag::firstOrCreate(['name' => $tagName]);
-//             $tagIds[] = $tag->id;
-//         }
-
-//         $post->tags()->sync($tagIds);
-
-//         return redirect()->back();
-//     }
