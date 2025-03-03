@@ -17,9 +17,9 @@
                         <div class="flex items-center justify-between">
                             <div class="flex items-center space-x-3">
 
-                            <img src="{{ asset('storage/' . $post->user->profile_link) }}" alt="User"
-                            class="w-12 h-12 rounded-full" />
-                                
+                                <img src="{{ asset('storage/' . $post->user->profile_link) }}" alt="User"
+                                    class="w-12 h-12 rounded-full" />
+
 
                                 <div>
                                     <h3 class="font-semibold">{{ auth()->user()->name }}</h3>
@@ -47,7 +47,7 @@
                             <div class="flex items-center justify-between border-t pt-4">
                                 <div class="flex items-center space-x-4">
 
-                                    <button onclick="toggleLike({{$post->id}})"
+                                    <button onclick="toggleLike('{{ $post->id }}')"
                                         class="like-button text-gray-500 flex items-center space-x-2 hover:text-blue-600"
                                         data-post-id="{{ $post->id }}">
                                         <svg class="h-5 w-5 like-icon" fill="none" stroke="currentColor"
