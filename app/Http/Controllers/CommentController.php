@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Comment;
 use App\Models\Post;
+use App\Models\User;
+use App\Notifications\CommentNotification;
 use Illuminate\Http\Request;
 
 class CommentController extends Controller
@@ -22,6 +24,12 @@ class CommentController extends Controller
             'user_id' => auth()->user()->id,
             'content' => $validated['content']
         ]);
+        // $lastComment = $post->comments()->latest()->first();
+        // dd($lastComment);
+
+        $user = User::find(auth()->id());
+        $user->notify(new CommentNotification());
+        dd(auth()->user()->notifications);
 
         return response()->json([
             'success' => true,

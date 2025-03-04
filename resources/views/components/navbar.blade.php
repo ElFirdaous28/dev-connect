@@ -28,13 +28,65 @@
                     </svg>
                     <span class="bg-blue-500 rounded-full w-2 h-2"></span>
                 </a>
-                <a href="#" class="flex items-center space-x-1 hover:text-blue-400">
-                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
-                    </svg>
-                    <span class="bg-red-500 rounded-full w-2 h-2"></span>
-                </a>
+                <div class="relative">
+                    <button id="notification-ring" class="flex items-center space-x-1 hover:text-blue-400 relative">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
+                        </svg>
+                        <span class="absolute -top-1 -right-1 bg-red-500 text-white rounded-full w-4 h-4 flex items-center justify-center text-xs">
+                            {{auth()->user()->notifications->count()}}
+                        </span>
+                    </button>
+                
+                <div id="notification-dropdown" class="hidden absolute right-0 mt-2 w-80 bg-white dark:bg-gray-800 rounded-lg shadow-lg border dark:border-gray-700 z-50">
+                    <div class="px-4 py-3 border-b dark:border-gray-700 flex justify-between items-center">
+                        <h3 class="text-sm font-medium text-gray-900 dark:text-white">Notifications</h3>
+                        <button class="text-xs text-blue-500 hover:text-blue-700">
+                            Mark all as read
+                        </button>
+                    </div>
+            
+                    <!-- Notification Items -->
+                    <div class="max-h-96 overflow-y-auto">
+                        <!-- Notification Item -->
+                        @foreach (auth()->user()->notifications as $notification)
+                            
+                   
+                        <div class="px-4 py-3 hover:bg-gray-100 dark:hover:bg-gray-700 cursor-pointer border-b last:border-b-0 dark:border-gray-700">
+                            <div class="flex items-start space-x-3">
+                                <div class="flex-shrink-0">
+                                    <img src="/path-to-avatar.jpg" class="w-8 h-8 rounded-full" alt="Avatar">
+                                </div>
+                                <div class="flex-1 min-w-0">
+                                    <p class="text-sm font-medium text-gray-900 dark:text-white">
+                                    
+                                        hmidouche amine
+                                    </p>
+                                    <p class="text-xs text-gray-500 dark:text-gray-400">
+                                        @if (is_array($notification->data) && isset($notification->data['comment']))
+                                        {{$notification->data['comment']}}
+                                        @endif
+                                    </p>
+                                    <p class="text-xs text-gray-400 dark:text-gray-500">
+                                        2 mins ago
+                                        
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        @endforeach
+                        <!-- More Notification Items -->
+                       
+                    </div>
+            
+                    <div class="px-4 py-3 text-center border-t dark:border-gray-700">
+                        <a href="#" class="text-sm text-blue-500 hover:text-blue-700">
+                            View all notifications
+                        </a>
+                    </div>
+                </div>
+            </div>
 
                 <div class="hidden sm:flex sm:items-center sm:ms-6">
                     <x-dropdown align="right" width="48">
@@ -82,3 +134,30 @@
         </div>
     </div>
 </nav>
+
+<script>
+    
+@php
+$userId = auth()->check() ? auth()->user()->id:0;
+@endphp  
+console.log("yes is me" ,{{$userId}});
+
+Pusher.logToConsole = true;
+
+var pusher = new Pusher('{{ env('PUSHER_APP_KEY') }}', {
+cluster: '{{ env('PUSHER_APP_CLUSTER') }}',
+encrypted: true
+});
+
+
+var channel = pusher.subscribe('my-channel');
+channel.bind("Illuminate\\Notifications\\Events\\BroadcastNotificationCreated", function(data) {
+
+ if(data.post_user_id == {{$userId}}){
+console.log(data)
+
+alert(data.comment) 
+ }
+});
+</script>
+
