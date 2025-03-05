@@ -11,10 +11,10 @@
         </div>
         @endif
 
-        <button
+        <a href="{{ route('posts.create')}}"
             class="bg-gray-100 hover:bg-gray-200 text-gray-500 text-left rounded-lg px-4 py-3 flex-grow transition-colors duration-200">
             Share your knowledge or ask a question...
-        </button>
+        </a>
     </div>
     <div class="flex justify-between mt-4 pt-4 border-t">
         <button
