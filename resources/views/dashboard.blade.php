@@ -16,8 +16,7 @@
                     <div class="bg-white rounded-xl shadow-sm p-4">
                         <div class="flex items-center justify-between">
                             <div class="flex items-center space-x-3">
-                                <img src="{{ asset('storage/' . $post->user->profile_link) }}" alt="User"
-                                    class="w-12 h-12 rounded-full" />
+                                <img src="{{ asset('storage/' . ($post->user->profile_link ?? 'default/user.png') ) }}" alt="User" class="w-12 h-12 rounded-full" />
                                 <div>
                                     <h3 class="font-semibold">{{ auth()->user()->name }}</h3>
                                     <p class="text-gray-500 text-sm">{{ auth()->user()->headline }}</p>
@@ -34,6 +33,7 @@
 
                         <!-- content and actions -->
                         <div>
+                            <div> {{ $post->title }}</div>
                             <!-- content -->
                             <div class="ql-snow">
                                 <div class="ql-editor" style="padding: 0 !important;">
