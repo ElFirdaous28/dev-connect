@@ -29,6 +29,13 @@
                     <span class="bg-blue-500 rounded-full w-2 h-2"></span>
                 </a>
 
+
+                <a href="{{ route('connections.list') }}" class="flex items-center space-x-1 hover:text-blue-400">
+                    <svg  fill="currentColor" data-supported-dps="24x24" viewBox="0 0 24 24" data-token-id="343" width="24" height="24" class="_1v88awfd cnuthtao" aria-label="" aria-hidden="true" style="width: 24px; min-width: 24px; height: 24px; min-height: 24px;">
+                        <path d="M12 6.5a4.5 4.5 0 1 1 4.5 4.5A4.49 4.49 0 0 1 12 6.5m6 6.5h-3a3 3 0 0 0-3 3v6h9v-6a3 3 0 0 0-3-3M6.5 6A3.5 3.5 0 1 0 10 9.5 3.5 3.5 0 0 0 6.5 6m1 9h-2A2.5 2.5 0 0 0 3 17.5V22h7v-4.5A2.5 2.5 0 0 0 7.5 15"></path>
+                    </svg>
+                </a>
+
                 <!-- Notification Dropdown -->
                 <div x-data="{ open: false }" class="relative">
                     <button @click="open = !open" class="flex items-center space-x-1 hover:text-blue-400 relative">
