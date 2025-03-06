@@ -1,5 +1,3 @@
-<script src="{{ asset('js/comments.js') }}" defer></script>
-
 <x-app-layout>
     <div class="space-y-6">
         <x-profile />
