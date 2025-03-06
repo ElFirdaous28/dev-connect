@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Comment;
 use App\Models\Post;
+use App\Notifications\CommentNotification;
 use Illuminate\Http\Request;
 
 class CommentController extends Controller
@@ -18,15 +19,18 @@ class CommentController extends Controller
             'content' => 'required',
         ]);
 
-        $post->comments()->create([
+        $comment = $post->comments()->create([
             'user_id' => auth()->user()->id,
             'content' => $validated['content']
         ]);
 
+        $post->user->notify(new CommentNotification($comment));
+
         return response()->json([
             'success' => true,
-            'message' => "comment added succisfully"
-        ]);;
+            'message' => "Comment added successfully",
+            'comment' => $comment
+        ]);
     }
 
 

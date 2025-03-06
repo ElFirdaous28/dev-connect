@@ -44,9 +44,17 @@ Route::middleware('auth')->group(function () {
 
 
     // connection toutes
+    Route::get('/connections', function () {
+        return view('my-connections');
+    })->name('connections.list');
+    
     Route::post('/connect/{user}', [ConnectionController::class, 'connect'])->name('connect');
+    Route::post('/connection/{connectionId}/accept', [ConnectionController::class, 'accept']);
+    Route::post('/connection/{connectionId}/reject', [ConnectionController::class, 'reject']);
+    Route::post('/connection/{connectionId}/delete', [ConnectionController::class, 'delete']);
 
 
+    // posts
     Route::resource('posts', PostController::class);
 
     // likes
