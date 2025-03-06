@@ -9,15 +9,16 @@ class Connection extends Model
 {
     use HasFactory;
 
-    public function user()
+    public function requester()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class, 'requester_id');
     }
 
-    public function connectedUser()
+    public function addressee()
     {
-        return $this->belongsTo(User::class, 'connected_user_id');
+        return $this->belongsTo(User::class, 'addressee_id');
     }
+
 
     public static function getConnectionStatus($id1, $id2)
     {

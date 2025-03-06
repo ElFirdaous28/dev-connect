@@ -241,4 +241,3 @@
 </x-app-layout>
 
 <script src="{{ asset('js/like.js') }}"></script>
-<script src="{{ asset('js/comments.js') }}" defer></script>
