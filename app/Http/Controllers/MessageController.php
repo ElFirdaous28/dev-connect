@@ -3,63 +3,48 @@
 namespace App\Http\Controllers;
 
 use App\Models\Message;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class MessageController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
+    public function chat($userId)
     {
-        //
+        $loggedInUser = auth()->user();
+        $secondUser = User::findOrFail($userId);
+    
+        // Retrieve messages using relationships
+        $messages = Message::where(function ($query) use ($loggedInUser, $secondUser) {
+            $query->where('sender_id', $loggedInUser->id)
+                  ->where('receiver_id', $secondUser->id);
+        })->orWhere(function ($query) use ($loggedInUser, $secondUser) {
+            $query->where('sender_id', $secondUser->id)
+                  ->where('receiver_id', $loggedInUser->id);
+        })->with(['sender', 'receiver']) // Eager load sender and receiver
+        ->orderBy('created_at', 'asc')->get();
+    
+        return view('chat', compact('secondUser', 'messages'));
     }
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
+    
+    public function sendMessage(Request $request)
     {
-        //
-    }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        //
-    }
+        
+        $v = $request->validate([
+            'receiver_id' => 'required|exists:users,id',
+            'message' => 'required|string|max:1000',
+        ]);
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(Message $message)
-    {
-        //
-    }
+        $message = Message::create([
+            'sender_id' => auth()->id(),
+            'receiver_id' => $request->receiver_id,
+            'message' => $request->message,
+        ]);
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Message $message)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, Message $message)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Message $message)
-    {
-        //
+        return response()->json([
+            'success' => true,
+            'message' => $message->message,
+            'time' => $message->created_at->format('H:i')
+        ]);
     }
 }
