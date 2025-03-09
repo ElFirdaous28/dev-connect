@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Connection;
 use App\Models\User;
+use GuzzleHttp\Promise\Create;
 use Illuminate\Http\Request;
 
 class ConnectionController extends Controller
@@ -11,7 +12,10 @@ class ConnectionController extends Controller
 
     public function connect(User $user)
     {
-        $user->connections()->sync(auth()->user()->id);
+        Connection::create([
+            'requester_id' => auth()->user()->id,
+            'addressee_id' => $user->id,
+        ]);
         return response()->json([
             'success' => true,
         ]);

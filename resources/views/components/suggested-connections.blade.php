@@ -25,7 +25,7 @@
 
             @if ($user->connectionStatus)
             @if ($user->connectionStatus == 'accepted')
-            <a href=""
+            <a href="{{ route('chat',$user->id)}}"
                 class="text-blue-500 hover:text-blue-600">
                 Message
             </a>

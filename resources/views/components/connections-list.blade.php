@@ -21,7 +21,7 @@
             </div>
 
             <div class="flex items-center space-x-4">
-                <a href="" class="text-blue-500 hover:text-blue-600 dark:text-blue-400 dark:hover:text-blue-300">
+                <a href="{{ route('chat',$connection['user']->id)}}" class="text-blue-500 hover:text-blue-600 dark:text-blue-400 dark:hover:text-blue-300">
                     Message
                 </a>
                 <!-- Delete Button -->
