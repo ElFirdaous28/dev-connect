@@ -8,6 +8,7 @@ use App\Http\Controllers\MessageController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\SearchController;
 use App\Http\Controllers\UserProgrammingLanguageController;
 use App\Http\Controllers\UserSkillController;
 use Illuminate\Support\Facades\Route;
@@ -67,6 +68,12 @@ Route::middleware('auth')->group(function () {
     Route::post('/posts/{post}/comments', [CommentController::class, 'store'])->name('comments.store');
     Route::patch('/comments/{comment}', [CommentController::class, 'update'])->name('comments.update');
     Route::delete('/comments/{comment}', [CommentController::class, 'destroy'])->name('comments.destroy');
+
+    // messages
+    Route::get('/chat/{user}', [MessageController::class, 'chat'])->name('chat');
+    Route::post('/chat/send', [MessageController::class, 'sendMessage'])->name('chat.send');
+
+    Route::get('/search', [SearchController::class, 'search'])->name('search');
 });
 
 // messages

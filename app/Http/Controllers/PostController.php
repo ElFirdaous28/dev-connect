@@ -11,7 +11,7 @@ class PostController extends Controller
 {
 
     public function dashboard(){
-        $posts = Post::all();
+        $posts = Post::orderBy('created_at', 'desc')->cursorPaginate(3);
         return view('dashboard', compact('posts'));
     }
     /**
