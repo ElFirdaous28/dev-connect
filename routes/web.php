@@ -48,7 +48,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/connections', function () {
         return view('my-connections');
     })->name('connections.list');
-    
+
     Route::post('/connect/{user}', [ConnectionController::class, 'connect'])->name('connect');
     Route::post('/connection/{connectionId}/accept', [ConnectionController::class, 'accept']);
     Route::post('/connection/{connectionId}/reject', [ConnectionController::class, 'reject']);
@@ -67,11 +67,13 @@ Route::middleware('auth')->group(function () {
     Route::post('/posts/{post}/comments', [CommentController::class, 'store'])->name('comments.store');
     Route::patch('/comments/{comment}', [CommentController::class, 'update'])->name('comments.update');
     Route::delete('/comments/{comment}', [CommentController::class, 'destroy'])->name('comments.destroy');
+});
 
-    // messages
+// messages
+Route::middleware(['auth', 'connected'])->group(function () {
     Route::get('/chat/{user}', [MessageController::class, 'chat'])->name('chat');
     Route::post('/chat/send', [MessageController::class, 'sendMessage'])->name('chat.send');
-
 });
+
 
 require __DIR__ . '/auth.php';
