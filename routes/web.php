@@ -8,6 +8,7 @@ use App\Http\Controllers\MessageController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\SearchController;
 use App\Http\Controllers\UserProgrammingLanguageController;
 use App\Http\Controllers\UserSkillController;
 use Illuminate\Support\Facades\Route;
@@ -72,6 +73,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/chat/{user}', [MessageController::class, 'chat'])->name('chat');
     Route::post('/chat/send', [MessageController::class, 'sendMessage'])->name('chat.send');
 
+    Route::get('/search', [SearchController::class, 'search'])->name('search');
 });
 
 require __DIR__ . '/auth.php';
