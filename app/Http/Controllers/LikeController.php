@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Like;
 use App\Models\Post;
+use App\Notifications\LikeNotification;
 use Illuminate\Http\Request;
 
 class LikeController extends Controller
@@ -14,15 +15,17 @@ class LikeController extends Controller
     public function toggleLike(Post $post)
     {
         $like = $post->likes()->where('user_id', auth()->id())->first();
-        
+
         if ($like) {
             $like->delete();
             $isLiked = false;
         } else {
-            $post->likes()->create([
+            $like = $post->likes()->create([
                 'user_id' => auth()->user()->id
             ]);
             $isLiked = true;
+            $post->user->notify(new LikeNotification($like));
+
         }
 
         return response()->json([
