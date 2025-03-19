@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Jobs\AutoPublishPost;
 use App\Models\Hashtag;
 use App\Models\Post;
 use Illuminate\Http\Request;
@@ -10,10 +11,15 @@ use Illuminate\Support\Facades\Storage;
 class PostController extends Controller
 {
 
-    public function dashboard(){
-        $posts = Post::orderBy('created_at', 'desc')->cursorPaginate(3);
+    public function dashboard()
+    {
+        $posts = Post::where('status', 'published')
+            ->orderBy('created_at', 'desc')
+            ->cursorPaginate(3);
+
         return view('dashboard', compact('posts'));
     }
+
     /**
      * Display a listing of the resource.
      */
@@ -49,33 +55,43 @@ class PostController extends Controller
             'content' => 'required|string',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'hashtags' => 'required',
+            'publish_time' => 'nullable|date',
         ]);
 
         $post = Post::create([
             'title' => $validated['title'],
             'content' => $validated['content'],
             'user_id' => auth()->id(),
+            'publish_time' => $validated['publish_time'] ?? null,
+            'status' => $validated['publish_time'] ? 'draft' : 'published',
         ]);
 
-
+        // Handle hashtags
         $tagsArray = array_filter(preg_split('/[\s#]+/', $request->hashtags));
-
         $hashtagsIds = [];
         foreach ($tagsArray as $tagName) {
             $tag = Hashtag::firstOrCreate(['name' => $tagName]);
             $hashtagsIds[] = $tag->id;
         }
-
         $post->hashtags()->sync($hashtagsIds);
 
-        // Handle the image if uploaded
+        // Handle image upload
         if ($request->hasFile('image')) {
             $post->image = $request->file('image')->store('posts_images', 'public');
             $post->save();
         }
 
-        return redirect()->route('posts.index');
+        // Schedule the post if publish_time is set
+        if ($request->publish_time) {
+            AutoPublishPost::dispatch($post)
+                ->delay(now()->parse($request->publish_time));
+        } else {
+            $post->update(['status' => 'published']);
+        }
+
+        return redirect()->route('posts.index')->with('success', 'Post created successfully.');
     }
+
 
 
     /**

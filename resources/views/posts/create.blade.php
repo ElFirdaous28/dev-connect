@@ -9,7 +9,7 @@
                     </h2>
 
                     <p class="mt-1 text-sm text-gray-600 dark:text-gray-400">
-                        {{ __("Write your thoughts and share them with others.") }}
+                        {{ __('Write your thoughts and share them with others.') }}
                     </p>
                 </header>
 
@@ -21,7 +21,7 @@
                             <!-- Title Input -->
                             <div>
                                 <x-input-label for="title" :value="__('Title')" />
-                                <x-text-input id="title" name="title" type="text" class="mt-1 block w-full" 
+                                <x-text-input id="title" name="title" type="text" class="mt-1 block w-full"
                                     value="{{ old('title') }}" required autofocus />
                                 <x-input-error class="mt-2" :messages="$errors->get('title')" />
                             </div>
@@ -39,7 +39,7 @@
 
                             <div>
                                 <x-input-label for="hashtags" :value="__('Hashtags')" />
-                                <x-text-input id="hashtags" name="hashtags" type="text" class="mt-1 block w-full" 
+                                <x-text-input id="hashtags" name="hashtags" type="text" class="mt-1 block w-full"
                                     value="{{ old('hashtags') }}" required autofocus />
                                 <x-input-error class="mt-2" :messages="$errors->get('hashtags')" />
                             </div>
@@ -47,13 +47,26 @@
                             <!-- Image Upload -->
                             <div>
                                 <x-input-label for="image" :value="__('Post Image (Optional)')" />
-                                <input type="file" id="image" name="image" class="mt-1 block w-full p-2 border border-gray-300 rounded-md" onchange="previewImage(event)" />
+                                <input type="file" id="image" name="image"
+                                    class="mt-1 block w-full p-2 border border-gray-300 rounded-md"
+                                    onchange="previewImage(event)" />
                                 <x-input-error class="mt-2" :messages="$errors->get('image')" />
                             </div>
 
                             <!-- Image Preview -->
                             <div id="image-preview" class="mt-3" style="display: none;">
-                                <img id="preview" src="{{ old('image') ? asset('storage/' . old('image')) : '' }}" alt="Image Preview" class="w-full h-64 object-cover rounded-md shadow-md" />
+                                <img id="preview" src="{{ old('image') ? asset('storage/' . old('image')) : '' }}"
+                                    alt="Image Preview" class="w-full h-64 object-cover rounded-md shadow-md" />
+                            </div>
+                            <!-- Publish Time Input -->
+                            <div>
+                                <x-input-label for="publish_time" :value="__('Publish Time (Optional)')" />
+                                <x-text-input id="publish_time" name="publish_time" type="datetime-local"
+                                    class="mt-1 block w-full" />
+                                <p class="text-sm text-gray-500 dark:text-gray-400">
+                                    {{ __('Leave it as is to publish immediately.') }}
+                                </p>
+                                <x-input-error class="mt-2" :messages="$errors->get('publish_time')" />
                             </div>
                         </div>
                     </div>
@@ -75,10 +88,20 @@
         theme: 'snow',
         modules: {
             toolbar: [
-                [{ 'header': '1' }, { 'header': '2' }],
-                [{ 'list': 'ordered' }, { 'list': 'bullet' }],
+                [{
+                    'header': '1'
+                }, {
+                    'header': '2'
+                }],
+                [{
+                    'list': 'ordered'
+                }, {
+                    'list': 'bullet'
+                }],
                 ['bold', 'italic', 'underline'],
-                [{ 'align': [] }],
+                [{
+                    'align': []
+                }],
                 ['link'],
                 ['blockquote', 'code-block'],
             ],
@@ -88,14 +111,14 @@
     // If there's any old content, set it in the Quill editor
     const oldContent = `{{ old('content') }}`;
     if (oldContent) {
-        quill.root.innerHTML = oldContent;  // Populate the editor with old content
+        quill.root.innerHTML = oldContent; // Populate the editor with old content
     }
 
     document.querySelector('#create-button').addEventListener('click', function(e) {
         // Get the HTML content directly from Quill
         const htmlContent = quill.root.innerHTML;
         const textArea = document.getElementById('content-input');
-        textArea.value = htmlContent;  // Ensure this is set to textarea's value
+        textArea.value = htmlContent; // Ensure this is set to textarea's value
     });
 
     // Image preview functionality
