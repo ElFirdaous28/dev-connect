@@ -82,12 +82,12 @@ class PostController extends Controller
         }
 
         // Schedule the post if publish_time is set
-        if ($request->publish_time) {
-            AutoPublishPost::dispatch($post)
-                ->delay(now()->parse($request->publish_time));
-        } else {
-            $post->update(['status' => 'published']);
-        }
+        // if ($request->publish_time) {
+        //     AutoPublishPost::dispatch($post)
+        //         ->delay(now()->parse($request->publish_time));
+        // } else {
+        //     $post->update(['status' => 'published']);
+        // }
 
         return redirect()->route('posts.index')->with('success', 'Post created successfully.');
     }

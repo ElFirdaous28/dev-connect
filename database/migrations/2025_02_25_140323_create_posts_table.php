@@ -17,6 +17,10 @@ return new class extends Migration
             $table->string('title');
             $table->text('content');
             $table->string('image')->nullable();
+
+            $table->timestamp('publish_time')->nullable()->after('content');
+            $table->enum('status', ['draft', 'published'])->default('draft')->after('publish_time');
+            
             $table->timestamps();
         });
     }
