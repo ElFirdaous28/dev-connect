@@ -1,5 +1,7 @@
 <?php
 
+require_once __DIR__ . '/Unit/UnitTestCase.php';
+
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
@@ -15,6 +17,7 @@ use Tests\TestCase;
 */
 
 uses(TestCase::class, RefreshDatabase::class)->in('Feature');
+uses(Tests\Unit\UnitTestCase::class)->in('Unit');
 
 /*
 |--------------------------------------------------------------------------
